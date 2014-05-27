@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" /> 
+
+
+    <title>手語辭典</title>
+    <link rel="stylesheet" href="animate.min.css">
+ 
+    <link rel="apple-touch-icon" href="icon/apple-touch-icon-72x72-precomposed.png" />
+    <link rel="apple-touch-startup-image" href="splash.9.web.jpg">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+<!--
+<script type="text/javascript" src="waterbug.js"> </script> 
+-->
+
+    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="stylesheet"  href="css/themes/default/jquery.mobile-1.4.2.min.css">
+    <link rel="stylesheet" href="_assets/css/jqm-demos.css">
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,700">
+    <script src="js/jquery.js"></script>
+    <script src="_assets/js/index.js"></script>
+    <script src="js/jquery.mobile-1.4.2.min.js"></script>
+<script src="jquery-scrolltofixed-min.js" type="text/javascript"></script>
+
+
+    <script>
+    var table
+
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r;
+            i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date();
+            a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0];
+            a.async = 1;
+            a.src = g;
+            m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', 'UA-29871786-2', 'nthu.edu.tw');
+        ga('send', 'pageview');
+    </script>
+
+    <script type="text/javascript">
+        function testAnim(id) {
+            x = "flash";
+            $('#' + id).removeClass().addClass(x + ' animated').one('webkitAnimationEnd mozAnimationEnd oAnimationEnd animationEnd', function () {
+                $(this).removeClass();
+            });
+            $('#'+id+"TBhead").append('<img src="gps.png" width="20px" />')
+            console.log('#'+id+"TBhead")
+        };
+
+
+
+        function getDistance(lat1, lon1, lat2, lon2) {
+            if (lat2 == 0 && lon2 == 0) return "?";
+            var R = 637100; // m (change this constant to get miles )
+            var dLat = (lat2 - lat1) * Math.PI / 180;
+            var dLon = (lon2 - lon1) * Math.PI / 180;
+            var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                Math.sin(dLon / 2) * Math.sin(dLon / 2);
+            var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+            var d = R * c;
+            return Math.round(d) / 100;
+        };
+
+        function calc_dist(my_lat,my_lon) {
+            // body...
+            var d_TSMC = getDistance(my_lat, my_lon, TSMC_lat, TSMC_lon)
+            var d_Gate = getDistance(my_lat, my_lon, Gate_lat, Gate_lon)
+            if (d_TSMC < d_Gate) {
+                testAnim("TSMCCDown")
+            } else {
+                testAnim("GateCDown")
+            }
+        }
+    </script>
+
+
+    <script type="text/javascript">
+        var Alltime = 0;
+        var storelink = "https://itunes.apple.com/us/app/qing-da-xia-yi-ban-xiao-ba/id785576310?ls=1&mt=8"
+        var TSMC_lat = 24.787319;
+        var TSMC_lon = 120.988348;
+        var Gate_lat = 24.796806;
+        var Gate_lon = 120.997022;
+
+        function allOn(value) { // 全部時間顯示模式
+            Alltime = value;
+            $("#tb").html("");
+            getTime();
+
+            if (value == 1) {
+                $("#tbCDOWN").hide();
+                $("#alerts").hide();
+            } else {
+                $("#tbCDOWN").show();
+                $("#alerts").show();
+
+            }
+
+
+
+
+            console.log("XD")
+        }
+
+        function Check_transCN() {
+            var language = window.navigator.userLanguage || window.navigator.language;
+
+            if (language.indexOf("CN") > -1 || language.indexOf("cn") > -1)
+                StranBody(document)
+        }
+$(document).bind("mobileinit", function(){
+    $.mobile.defaultDialogTransition = "none";
+    $.mobile.defaultPageTransition = "none";
+});
+        $(document).ready(function () {
+
+
+//            $('.ui-filterable').scrollToFixed({ marginTop: 50});
+            testAnim();
+            if (/Android|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                // some code..
+                storelink = "market://details?id=bstn.next.nthu.bus";
+                $("#rate_b").attr("href", storelink);
+                $("#share_b").attr("href", "https://www.facebook.com/sharer/sharer.php?u=https://play.google.com/store/apps/details?id=bstn.next.nthu.bus");
+            }
+            var language = window.navigator.userLanguage || window.navigator.language;
+            //alert(language); //works IE/SAFARI/CHROME/FF
+            if (language.indexOf("TW") == -1 && language.indexOf("CN") == -1 && language.indexOf("tw") == -1 && language.indexOf("cn") == -1)
+                $("#headertitle").text("Next NTHU Bus");
+
+            Check_transCN();
+
+
+            getTime();
+
+
+        });
+        function changepage (i) {
+            // body...
+            $("#movieurl")[0].src = 'movies/' +i + '.mp4'
+            $("#player").load()
+
+            $("#player").get(0).play()
+            console.log(  )
+            $("#wword_title").html(table[i][0])
+            $("#wword_more").html(table[i][2])
+
+        }
+
+        function getTime(argument) {
+            $("#tb").html("");
+            $.ajax({
+                type: "GET",
+                url: "db.csv",
+                dataType: "text",
+                success: function (data) {
+
+                     table = CSVToArray(data)
+                       console.log(table[2][1])
+
+//                       $("#div_listword").append('')
+
+                       for (var i = table.length - 2 ; i >= 0; i--) {
+                    $("#listwords").append('<li><a href="#watchword" onclick="changepage('+i+')"" >'+table[i][0]+'</a></li>')
+
+                       };
+
+                       $( "#listwords" ).listview("refresh");
+                     
+
+
+                   
+
+
+
+
+      
+
+                }
+
+            });
+
+
+        }
+
+
+
+         // This will parse a delimited string into an array of
+         // arrays. The default delimiter is the comma, but this
+         // can be overriden in the second argument.
+
+        function CSVToArray(strData, strDelimiter) {
+            // Check to see if the delimiter is defined. If not,
+            // then default to comma.
+            strDelimiter = (strDelimiter || ",");
+
+            // Create a regular expression to parse the CSV values.
+            var objPattern = new RegExp(
+                (
+                    // Delimiters.
+                    "(\\" + strDelimiter + "|\\r?\\n|\\r|^)" +
+
+                    // Quoted fields.
+                    "(?:\"([^\"]*(?:\"\"[^\"]*)*)\"|" +
+
+                    // Standard fields.
+                    "([^\"\\" + strDelimiter + "\\r\\n]*))"
+                ),
+                "gi"
+            );
+
+
+            // Create an array to hold our data. Give the array
+            // a default empty first row.
+            var arrData = [
+                []
+            ];
+
+            // Create an array to hold our individual pattern
+            // matching groups.
+            var arrMatches = null;
+
+
+            // Keep looping over the regular expression matches
+            // until we can no longer find a match.
+            while (arrMatches = objPattern.exec(strData)) {
+
+                // Get the delimiter that was found.
+                var strMatchedDelimiter = arrMatches[1];
+
+                // Check to see if the given delimiter has a length
+                // (is not the start of string) and if it matches
+                // field delimiter. If id does not, then we know
+                // that this delimiter is a row delimiter.
+                if (
+                    strMatchedDelimiter.length &&
+                    (strMatchedDelimiter != strDelimiter)
+                ) {
+
+                    // Since we have reached a new row of data,
+                    // add an empty row to our data array.
+                    arrData.push([]);
+
+                }
+
+
+                // Now that we have our delimiter out of the way,
+                // let's check to see which kind of value we
+                // captured (quoted or unquoted).
+                if (arrMatches[2]) {
+
+                    // We found a quoted value. When we capture
+                    // this value, unescape any double quotes.
+                    var strMatchedValue = arrMatches[2].replace(
+                        new RegExp("\"\"", "g"),
+                        "\""
+                    );
+
+                } else {
+
+                    // We found a non-quoted value.
+                    var strMatchedValue = arrMatches[3];
+
+                }
+
+
+                // Now that we have our value string, let's add
+                // it to the data array.
+                arrData[arrData.length - 1].push(strMatchedValue);
+            }
+
+            // Return the parsed data.
+            return (arrData);
+        }
+
+
+
+    </script>
+    <style type="text/css">
+
+       body {
+        margin: 0;
+    }
+
+    #container {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+    }
+        span.hasCountdown {
+            border: 0px solid #ccc;
+            background-color: transparent;
+            line-height: 100%;
+        }
+        .ui-table th,
+        .ui-table td {
+            text-align: center;
+            border-bottom: 1px #787878 solid;
+        }
+        body,
+        .jqm-demos {
+            background-color: none;
+            -webkit-tap-highlight-color: none;
+        }
+        .ui-btn-active {
+            color: #2F3E46 !important;
+            background: none !important;
+            background-color: none !important;
+            text-shadow: 0
+            /*{a-bup-shadow-x}*/
+            1px
+            /*{a-bup-shadow-y}*/
+            0
+            /*{a-bup-shadow-radius}*/
+            #ffffff
+            /*{a-bup-shadow-color}*/
+            ;
+        }
+        .jqm-header {
+            border-top: 0px;
+        }
+        td {
+            width: 50%
+        }
+        .ui-filterable
+        {
+
+        }
+    </style>
+
+
+
+
+
+
+
+
+</head>
+
+
+
+
+<body>
+    <div id="main" data-role="page" class="jqm-home" >
+
+        <div data-role="header" data-theme="a" data-position="fixed" data-tap-toggle="false">
+
+
+            <a href="#about" data-transition="fade" class="ui-icon-alt" data-theme="a" data-icon="info" data-inline="true">關於</a>
+
+            <h1 class="jqm-logo" id="headertitle">手語辭典</h1>
+
+
+
+
+        </div>
+        <!-- /header -->
+
+
+
+
+
+        <div id="content" data-role="content" class="jqm-content" style="margin-bottom:10%; padding-top:0px">
+            <div id="alerts"></div>
+            <div id="div_listword">
+
+<ul id="listwords" data-role="listview" data-filter="true" data-filter-reveal="true" data-filter-placeholder="搜尋..." data-inset="true" >
+    </ul>
+            
+            </div>
+
+
+        </div>
+        <!-- /content -->
+
+        <!-- /footer -->
+
+
+    </div>
+    <!-- /page -->
+
+
+    <div id="about" data-role="page" class="jqm-home" data-theme="a" data-url="pre-rendered-page">
+
+        <div data-role="header">
+
+            <h2>關於 About</h2>
+
+            <a href="" data-icon="arrow-l" class="ui-icon-alt" data-iconpos="notext" data-rel="back" data-inline="true" data-theme="a" data-transition="slide"></a>
+
+
+        </div>
+
+        <div data-role="content" class="jqm-content" style="margin-bottom:10%; padding-top:0px">
+            <p>顧玉山老師的手語辭典 v1.0 測試中</p>
+            <p>
+                資料來源<br>
+                蔡素娟、戴浩一、李信賢、陳怡君、余瓊怡. 2009. 【台灣手語線上辭典】第二版. 國立中正大學語言學研究所.
+http://tsl.ccu.edu.tw/web/browser.htm
+<br>
+蔡素娟、戴浩一、李信賢、陳怡君、呂嘉雄. 2008. 【台灣手語線上辭典】. 國立中正大學語言學研究所.
+            </p>
+            <!--
+            <p>In a boring nitgt, the author found that we use iOS device in NTHU ISS. We need a school bus software, so the author write it in 5 hours.</p>
+            <a id="rate_b" href="https://itunes.apple.com/us/app/qing-da-xia-yi-ban-xiao-ba/id785576310?ls=1&mt=8" target="_blank" rel="external" data-role="button" data-theme="c">喜歡請評分 Please Rate  </a>
+            <a id="share_b" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://itunes.apple.com/us/app/qing-da-xia-yi-ban-xiao-ba/id785576310?ls=1&mt=8" rel="external" data-role="button" data-theme="c">分享到FB<br>Share to Facebook </a>
+
+            --> 
+
+        </div>
+    </div>
+
+    <!-- setting -->
+
+    <div id="setting" data-role="page" class="jqm-home" data-theme="a" data-url="pre-rendered-page">
+        <script type="text/javascript">
+            Check_transCN()
+        </script>
+        <div data-role="header" data-theme="a">
+            <h2>設定 Setting</h2>
+
+            <a href="" data-icon="arrow-l" class="ui-icon-alt" data-iconpos="notext" data-rel="back" data-inline="true" data-theme="a" data-transition="slide"></a>
+
+        </div>
+
+        <div data-role="content" data-theme="a">
+            <fieldset data-role="controlgroup">
+                <legend>時間顯示 Time</legend>
+
+                <a href="" data-role="button" data-rel="back" onclick="allOn(0)" data-theme="a">未發車 Next Bus</a> 
+                <a href="" data-role="button" data-rel="back" data-theme="a" onclick="allOn(1)">全部班次 All Time</a> 
+
+            </fieldset>
+
+        </div>
+    </div>
+
+
+
+
+   <!-- watchword -->
+
+    <div id="watchword" data-role="page" class="jqm-home" data-theme="a" data-url="pre-rendered-page">
+        <script type="text/javascript">
+            Check_transCN()
+        </script>
+        <div data-role="header" data-theme="a">
+            <h2 id="wword_title"></h2>
+
+            <a href="" data-icon="arrow-l" class="ui-icon-alt" data-iconpos="notext" data-rel="back" data-inline="true" data-theme="a" data-transition="slide"></a>
+
+        </div>
+
+        <div data-role="content" data-theme="a" style="text-align:center">
+            <fieldset data-role="controlgroup">
+                <video id="player" width="80%" controls>
+  <source id="movieurl" src="1.mp4">
+Your browser does not support the video tag.
+</video>
+             <form>
+                <label for="textarea">說明:</label>
+                <div id="wword_more"> </div>
+
+            </fieldset>
+
+        </div>
+    </div>
+
+
+</body>
+
+</html>
