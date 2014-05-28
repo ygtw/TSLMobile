@@ -149,7 +149,12 @@ $(document).bind("mobileinit", function(){
         });
         function changepage (i) {
             // body...
-            $("#movieurl")[0].src = 'movies/' +i + '.mp4'
+//            $("#movieurl")[0].src = 'android.resource://com.nthu.iss.tslm/raw/a' +i
+            $("#movieurl")[0].src = 'movies/' +i+'.mp4';
+
+              
+ 
+
             $("#player").load()
 
             $("#player").get(0).play()
