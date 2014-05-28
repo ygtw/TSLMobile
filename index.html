@@ -94,6 +94,11 @@ $(function() {
                 testAnim("GateCDown")
             }
         }
+
+$(document).bind('pageinit', function () {
+    $.mobile.defaultPageTransition = 'none';
+});
+        
     </script>
 
 
@@ -189,7 +194,7 @@ $(document).bind("mobileinit", function(){
 //                       $("#div_listword").append('')
 
                        for (var i = table.length - 2 ; i >= 0; i--) {
-                    $("#listwords").append('<li><a href="#watchword" onclick="changepage('+i+')"" >'+table[i][0]+'</a></li>')
+                    $("#listwords").append('<li><a href="#watchword" data-transition="none" onclick="changepage('+i+')"" >'+table[i][0]+'</a></li>')
 
                        };
 
@@ -374,7 +379,7 @@ $(document).bind("mobileinit", function(){
         <div data-role="header" data-theme="a" data-position="fixed" data-tap-toggle="false">
 
 
-            <a href="#about" data-transition="fade" class="ui-icon-alt" data-theme="a" data-icon="info" data-inline="true">關於</a>
+            <a href="#about" data-transition="none" class="ui-icon-alt" data-theme="a" data-icon="info" data-inine="true">關於</a>
 
             <h1 class="jqm-logo" id="headertitle">台灣手語辭典</h1>
 
