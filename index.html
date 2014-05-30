@@ -169,11 +169,13 @@ $(document).bind("mobileinit", function(){
 
 //                       $("#div_listword").append('')
                         var tempstring=""
-                       for (var i = 0 ; i <=2700; i++) {
+                       for (var i = 0 ; i <=table.length-1; i++) {
                         k =table[i][0]
 
                         if(!table[ i][0]) continue
                     tempstring=tempstring+'<li><a href="#watchword" data-transition="none" class="ui-btn" onclick="changepage('+i+')"" >'+table[ i ][1]+'</a></li>'
+
+                        console.log(i+' '+table[ i ][1])
 
                        };
 
@@ -196,7 +198,7 @@ $(document).bind("mobileinit", function(){
 //                        $( "#listwords" ).listview({ filter: true });
 
                        $("input").focus()
-                     
+
 
 
                    
