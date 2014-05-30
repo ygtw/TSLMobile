@@ -167,14 +167,34 @@ $(document).bind("mobileinit", function(){
                      table = CSVToArray(data)
                        console.log(table[2][1])
 
-//                       $("#div_listword").append('')
+                       ul = '<ul id="listwords" data-role="listview" class="ui-listview" data-filter="true" data-filter-reveal="true" data-filter-placeholder="搜尋..." data-inset="true" >    '
 
+//                       $("#div_listword").append('')
+                        var tempstring=""
                        for (var i = table.length - 2 ; i >= 0; i--) {
-                    $("#listwords").append('<li><a href="#watchword" data-transition="none" onclick="changepage('+i+')"" >'+table[i][0]+'</a></li>')
+                    tempstring=tempstring+'<li><a href="#watchword" data-transition="none" class="ui-btn" onclick="changepage('+i+')"" >'+table[i][0]+'</a></li>'
 
                        };
 
+                       ul = ul + tempstring +"</ul>"
+
+
+
+                        $("#div_listword").append(ul)
+
+//                       $("#div_listword").append(tempstring)
+
+//                       $( "#listwords" ).listview("refresh");
+
+                    $( "#listwords" ).filterable({ filterReveal: true });
+
                        $( "#listwords" ).listview("refresh");
+
+
+                        
+//                        $( "#listwords" ).listview({ filter: true });
+
+                       $("input").focus()
                      
 
 
@@ -373,8 +393,7 @@ $(document).bind("mobileinit", function(){
             <div id="alerts"></div>
             <div id="div_listword">
 
-<ul id="listwords" data-role="listview" data-filter="true" data-filter-reveal="true" data-filter-placeholder="搜尋..." data-inset="true" >
-    </ul>
+
             
             </div>
 
