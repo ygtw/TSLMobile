@@ -171,7 +171,7 @@ $(document).bind("mobileinit", function(){
                         var tempstring=""
                        for (var i = 0 ; i <=2700; i++) {
                         k =table[i][0]
-                        console.log(table[ i][0])
+
                         if(!table[ i][0]) continue
                     tempstring=tempstring+'<li><a href="#watchword" data-transition="none" class="ui-btn" onclick="changepage('+i+')"" >'+table[ i ][1]+'</a></li>'
 
@@ -189,7 +189,7 @@ $(document).bind("mobileinit", function(){
 
                     $( "#listwords" ).filterable({ filterReveal: true });
 
-                       $( "#listwords" ).listview("refresh");
+                       //$( "#listwords" ).listview("refresh");
 
 
                         
@@ -282,8 +282,7 @@ $(document).bind("mobileinit", function(){
                     // We found a quoted value. When we capture
                     // this value, unescape any double quotes.
                     var strMatchedValue = arrMatches[2].replace(
-                        new RegExp("\"\"", "g"),
-                        "\""
+                        new RegExp("\"\"", "g"),"\""
                     );
 
                 } else {
