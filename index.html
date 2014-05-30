@@ -142,17 +142,15 @@ $(document).bind("mobileinit", function(){
         function changepage (i) {
             // body...
 //            $("#movieurl")[0].src = 'android.resource://com.nthu.iss.tslm/raw/a' +i
-            $("#movieurl")[0].src = 'movies/' +i+'.mp4';
-
-              
- 
+            $("#movieurl")[0].src = 'movies/' +table[i][0]+'.mp4';
 
             $("#player").load()
 
             $("#player").get(0).play()
-            console.log(  )
-            $("#wword_title").html(table[i][0])
-            $("#wword_more").html(table[i][2])
+
+            $("#wword_title").html(table[i][1])
+            $("#wword_more").html(table[i][3])
+            console.log(table[i][3])
 
         }
 
@@ -171,8 +169,11 @@ $(document).bind("mobileinit", function(){
 
 //                       $("#div_listword").append('')
                         var tempstring=""
-                       for (var i = table.length - 2 ; i >= 0; i--) {
-                    tempstring=tempstring+'<li><a href="#watchword" data-transition="none" class="ui-btn" onclick="changepage('+i+')"" >'+table[i][0]+'</a></li>'
+                       for (var i = 0 ; i <=2700; i++) {
+                        k =table[i][0]
+                        console.log(table[ i][0])
+                        if(!table[ i][0]) continue
+                    tempstring=tempstring+'<li><a href="#watchword" data-transition="none" class="ui-btn" onclick="changepage('+i+')"" >'+table[ i ][1]+'</a></li>'
 
                        };
 
